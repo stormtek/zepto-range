@@ -97,6 +97,11 @@
             gaps = labels.length - 1,
             size = Math.floor(range.size / (range.amount - 1)),
             container, tmp, i;
+console.log("gaps: " + gaps);
+console.log("range size: " + range.size);
+console.log("labels size: " + labels.length);
+console.log("num vals: " + range.amount);
+console.log("label size: " + size);
 
         // labels
         if (diff) {
@@ -202,9 +207,14 @@
 
     // plugin
     $.fn.range = function() {
+    console.log(this.selector);
         var labels;
         events();
         labels = Array.prototype.slice.call(arguments);
+        //detects if the args were an array rather than a list
+        if(labels.length==1 && labels instanceof Array) {
+            labels = labels[0];
+        }
         return this.each(function() {
             createRange(this, labels);
         });
