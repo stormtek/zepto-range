@@ -1,7 +1,5 @@
 # Zepto Range
 
-http://jcemer.com/zepto-range
-
 Input range implementation to work with touch using Zepto
 
 - add to header
