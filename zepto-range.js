@@ -64,8 +64,6 @@
 
     function Range(input, labels) {
         this.input = $(input);
-        this.container = this.input.wrap('<div>').parent();
-        this.container.addClass(defaults.name + ' ' + this.input[0].className);
 
         // number
         this.min = parseInt(this.input.attr('min'), 10);
@@ -77,10 +75,14 @@
         this.btn = $('<div class="btn">');
         this.fill = $('<div class="fill">');
         this.bar = $('<div class="bar">').append(this.btn, this.fill);
+        this.btn.size = this.btn.width();
+        
+        var width = parseInt(this.input.attr('width'), 10) - this.btn.size;
+        this.container = this.input.wrap('<div style="width: ' + width + 'px">').parent();
+        this.container.addClass(defaults.name + ' ' + this.input[0].className);
         this.container.append(this.bar);
 
-        this.btn.size = this.btn.width();
-        this.size = this.input.width() - this.btn.size;
+        this.size = width;
         this.gap = this.size / (this.amount - 1);
 
         // legend
@@ -97,11 +99,6 @@
             gaps = labels.length - 1,
             size = Math.floor(range.size / (range.amount - 1)),
             container, tmp, i;
-console.log("gaps: " + gaps);
-console.log("range size: " + range.size);
-console.log("labels size: " + labels.length);
-console.log("num vals: " + range.amount);
-console.log("label size: " + size);
 
         // labels
         if (diff) {
@@ -114,6 +111,7 @@ console.log("label size: " + size);
                     tmp[0] = i;
                     [].splice.apply(labels, tmp);
                 }
+                
             }
         }
 
@@ -125,6 +123,19 @@ console.log("label size: " + size);
 
         container.children().width(size);
         container.find(':first-child, :last-child').width(size / 2 + range.btn.size / 2);
+        
+        // adjust first label styling if necessary
+        var firstLabel = labels[0];
+        if(firstLabel) {
+        	if(firstLabel.length == 1) container.find(':first-child').addClass('singleCharLabel');
+        	else if(firstLabel.length == 2) container.find(':first-child').addClass('doubleCharLabel');
+        }
+        // adjust last label styling if necessary
+        var lastLabel = labels[labels.length-1];
+        if(lastLabel) {
+        	if(lastLabel.length == 1) container.find(':last-child').addClass('singleCharLabel');
+        	else if(lastLabel.length == 2) container.find(':last-child').addClass('doubleCharLabel');
+        }
 
         return container;
     }
@@ -138,6 +149,11 @@ console.log("label size: " + size);
         },
         move: function(to) {
             var pos = to * this.gap;
+            var btnWidth = this.btn.width();
+            if(to > 0) {
+            	if(to == this.amount - 1) pos -= btnWidth;
+            	else pos -= btnWidth / 2;
+            }
             $.translateX(this.btn[0], pos);
             this.fill.width(pos);
             this.input.trigger('move', [to, this]);
@@ -207,7 +223,6 @@ console.log("label size: " + size);
 
     // plugin
     $.fn.range = function() {
-    console.log(this.selector);
         var labels;
         events();
         labels = Array.prototype.slice.call(arguments);
