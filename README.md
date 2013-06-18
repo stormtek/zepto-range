@@ -1,8 +1,9 @@
 # Zepto Range
 
-Input range implementation to work with touch using Zepto
+Input range slider to work with touch using Zepto
 
-- add to header
+----------------------------------------------------------
+### File imports to add to header of html
 
 ``` html
 <link rel="stylesheet" href="zepto-range.css"/>
@@ -10,19 +11,54 @@ Input range implementation to work with touch using Zepto
 <script src="zepto-range.js"></script>
 ```
 
-- input fields to add into html
+----------------------------------------------------------
+### Input fields that the slider is built around
 
 ``` html
 <input type="range" min="0" max="4" value="0">
 <input type="range" class="inside" min="-5" max="5" value="0">
+<input type="range" min="0" max="2" value="0" width="300"
 ```
 
-- called after input fields are added to html
+#### Required Parameters
+
+- type="range"
+- min="some_integer"
+- max="some_integer_greater_than_max"
+- value="some_integer_between_max_and_min"
+
+The number of integers between min and max determine the number of options that the slider has. Value is the starting value that the slider has.
+
+#### Optional Parameters
+
+- width="some_integer"
+- class="inside"
+
+If a width is not specified then the width of an ancestor object will be grabbed. If no ancestor has it's width specified then this will end up being the width of the page. To guarantee that width and layout work correctly it is recommended to specify a width for the input field.
+
+----------------------------------------------------------
+### Javascript call to construct slider
+
+This needs to be added inside script tags at the end of the html.
 
 ``` javascript
-$('input[type="range"]').range();
+$('#wrapper_id input[type="range"]').range();
 $('input[type="range"]').range('worst', 'best');
+$('input[type="range"]').range(['1', '2', '3']);
 ```
+
+- The parameter to $() is a DOM selector for the input field
+
+The function call range() can take 3 types of parameter, as shown above
+- No parameter will show simply lines for each option available
+- Parameters can be passed as a list of strings or an array of strings
+- If there is less than a one-to-one mapping of parameters to options then gaps will be added intelligently
+ - 2 parameters will map to the first and last option
+ - 3 parameters will map to the first, middle, and last option
+ - If equal sized gaps cannot be made then it will default back to simply showing lines
+ - Things work best for gaps if there are an odd number of options
+
+----------------------------------------------------------
 
 ## Modes
 
