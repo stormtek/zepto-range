@@ -25,9 +25,10 @@ Input range slider to work with touch using Zepto
 - type="range"
 - min="some_integer"
 - max="some_integer_greater_than_min"
-- value="some_integer_between_max_and_min"
+- value="some_integer_between_min_and_miax"
+ - The initial value that is set. Note that this is not an index point but one of the values that lies between max and min.
 
-The number of integers between min and max determine the number of options that the slider has. Value is the starting value that the slider has.
+The number of integers between min and max determine the number of options that the slider has.
 
 #### Optional Parameters
 
