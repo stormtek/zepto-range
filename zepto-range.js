@@ -88,6 +88,11 @@
         this.gap = this.size / (this.amount - 1);
 
         // legend
+        if(!labels.length) {
+            labels = new Array(2);
+            labels[0] = this.min;
+            labels[1] = this.max;
+        }
         this.legend = legend(labels, this);
         this.container.append(this.legend);
 
