@@ -53,13 +53,17 @@ $('input[type="range"]').range(['1', '2', '3']);
 - The parameter to $() is a DOM selector for the input field
 
 The function call range() can take 3 types of parameter, as shown above
-- No parameter will show simply lines for each option available
-- Parameters can be passed as a list of strings or an array of strings
-- If there is less than a one-to-one mapping of parameters to options then gaps will be added intelligently
- - 2 parameters will map to the first and last option
- - 3 parameters will map to the first, middle, and last option
- - If equal sized gaps cannot be made then it will default back to simply showing lines
- - Things work best for gaps if there are an odd number of options
+- No parameters
+ - The min and max values set on the input field will be shown
+- A list of strings to be shown as options
+- An array of strings to be shown as options
+
+If there is less than a one-to-one mapping of parameters to options then gaps will be added intelligently
+- 1 parameter will cause things to break
+- 2 parameters will map to the first and last option
+- 3 parameters will map to the first, middle, and last option
+- If equal sized gaps cannot be made then it will default back to simply showing lines
+- Things work best for gaps if there are an odd number of options
 
 ----------------------------------------------------------
 
