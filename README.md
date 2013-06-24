@@ -2,6 +2,8 @@
 
 Input range slider to work with touch using Zepto
 
+http://stormtek.github.io/zepto-range/
+
 ----------------------------------------------------------
 ### File imports to add to header of html
 
