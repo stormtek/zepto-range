@@ -48,13 +48,17 @@ input[type="range"] {
     text-align: right;
 }
 
+.range .legend .label-last-child {
+	margin-left: -30px;
+}
+
 .range .legend .singleCharLabel:first-child {
 	position: relative;
 	left: 15px; /* 3/8 btn size */
 }
 .range .legend .singleCharLabel:last-child {
 	position: relative;
-	left: -15px; /* 3/8 btn size */
+	left: 15px; /* 3/8 btn size */
 }
 
 .range .legend .doubleCharLabel:first-child {
@@ -63,7 +67,7 @@ input[type="range"] {
 }
 .range .legend .doubleCharLabel:last-child {
 	position: relative;
-	left: -10px; /* 1/4 btn size */
+	left: 20px; /* 1/2 btn size */
 }
 
 .range .legend .label-empty {

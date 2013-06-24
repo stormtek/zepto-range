@@ -95,8 +95,8 @@
         // legend
         if(!labels.length) {
             labels = new Array(2);
-            labels[0] = this.min;
-            labels[1] = this.max;
+            labels[0] = this.min + "";
+            labels[1] = this.max + "";
         }
         this.legend = legend(labels, this);
         this.container.append(this.legend);
@@ -109,7 +109,7 @@
     function legend(labels, range) {
         var diff = range.amount - labels.length,
             gaps = labels.length - 1,
-            size = Math.floor(range.size / (range.amount - 1)),
+            size = (range.size - labels.length) / (range.amount - 1),
             container, tmp, i;
 
         // labels
@@ -130,12 +130,11 @@
         // html
         container = $('<div class="legend" aria-hidden="true">');
         container.append($.map(labels, function(item) {
-        	if(item == undefined) {
-        		if(range.showEmptyLabels) return $('<div class="label label-empty">').text('');
-        		else return $('<div class="label">').text('');
-            } else {
-            	return $('<div class="label">').text(item);
+        	var classes = "label";
+        	if(item == undefined && range.showEmptyLabels) {
+        		classes += " label-empty";
             }
+            return $('<div class="' + classes + '">').text(item == undefined ? '' : item);
         }));
 
         container.children().width(size);
@@ -143,15 +142,17 @@
         
         // adjust first label styling if necessary
         var firstLabel = labels[0];
-        if(firstLabel) {
+        if(firstLabel != null) {
         	if(firstLabel.length == 1) container.find(':first-child').addClass('singleCharLabel');
         	else if(firstLabel.length == 2) container.find(':first-child').addClass('doubleCharLabel');
         }
         // adjust last label styling if necessary
         var lastLabel = labels[labels.length-1];
         if(lastLabel) {
-        	if(lastLabel.length == 1) container.find(':last-child').addClass('singleCharLabel');
-        	else if(lastLabel.length == 2) container.find(':last-child').addClass('doubleCharLabel');
+        	var lastChild = container.find(':last-child');
+        	if(lastLabel.length == 1) lastChild.addClass('singleCharLabel');
+        	else if(lastLabel.length == 2) lastChild.addClass('doubleCharLabel');
+        	if(labels.length > 15 || lastLabel.length < 3) lastChild.addClass('label-last-child');
         }
 
         return container;
