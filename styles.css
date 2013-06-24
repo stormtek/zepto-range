@@ -14,7 +14,13 @@ body {
 
 .wrapper {
     width: 800px;
-    padding-left: 20px;
+    position: relative;
+    left: 50%;
+    margin-left: -400px; /* half the width */
+}
+
+#outsideWrapper {
+	padding: 0px 20px;
 }
 
 h1, h2 {
