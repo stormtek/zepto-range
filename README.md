@@ -43,6 +43,8 @@ The number of integers between min and max determine the number of options that 
 
 If a width is not specified then the width of an ancestor object will be grabbed. If no ancestor has it's width specified then this will end up being the width of the page. To guarantee that width and layout work correctly it is recommended to specify a width for the input field. One thing to note is that if the width you specify is less than the width of a wrapping container then the slider is likely to have issues displaying correctly - the options will probably wrap funny.
 
+Note: If you use a large number of values (e.g. min="0", max="200") and hide the labels (using showEmptyLabels="false") then it is possible to simulate a smooth continuous slider.
+
 ----------------------------------------------------------
 ### Javascript call to construct slider
 
