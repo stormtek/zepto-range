@@ -13,10 +13,10 @@ body {
 }
 
 .wrapper {
-    width: 800px;
+    width: 500px;
     position: relative;
     left: 50%;
-    margin-left: -400px; /* half the width */
+    margin-left: -250px; /* half the width */
 }
 
 #outsideWrapper {
