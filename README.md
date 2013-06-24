@@ -27,7 +27,7 @@ http://stormtek.github.io/zepto-range/
 - type="range"
 - min="some_integer"
 - max="some_integer_greater_than_min"
-- value="some_integer_between_min_and_miax"
+- value="some_integer_between_min_and_max"
  - The initial value that is set. Note that this is not an index point but one of the values that lies between max and min.
 
 The number of integers between min and max determine the number of options that the slider has.
@@ -35,9 +35,11 @@ The number of integers between min and max determine the number of options that 
 #### Optional Parameters
 
 - width="some_integer"
- - The width that you want the slider to be
+ - The width that you want the slider to be.
 - class="inside"
- - This determines whether the outside option lines sit inside the slider or even with the visible ends of the slider
+ - This determines whether the outside option lines sit inside the slider or even with the visible ends of the slider.
+- showEmptyLabels="true/false"
+ - The default behaviour is to show a line for each empty label. By setting this to false you can choose to show nothing for those empty labels, hiding them from the user.
 
 If a width is not specified then the width of an ancestor object will be grabbed. If no ancestor has it's width specified then this will end up being the width of the page. To guarantee that width and layout work correctly it is recommended to specify a width for the input field. One thing to note is that if the width you specify is less than the width of a wrapping container then the slider is likely to have issues displaying correctly - the options will probably wrap funny.
 
