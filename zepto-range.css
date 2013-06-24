@@ -66,10 +66,10 @@ input[type="range"] {
 	left: -10px; /* 1/4 btn size */
 }
 
-.range .legend .label:empty {
+.range .legend .label-empty {
     position: relative;
 }
-.range .legend .label:empty:before {
+.range .legend .label-empty:before {
     content: '';
     position: absolute;
     width: 1px;
@@ -77,10 +77,10 @@ input[type="range"] {
     background: #CCC;
     border-left: 1px solid white;
 }
-.range .legend .label:empty:first-child:before {
+.range .legend .label-empty:first-child:before {
     left: 20px; /* btn half size */
 }
-.range .legend .label:empty:last-child:before {
+.range .legend .label-empty:last-child:before {
     left: auto;
     right: 20px; /* btn half size */
 }

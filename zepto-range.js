@@ -70,6 +70,11 @@
         this.max = parseInt(this.input.attr('max'), 10);
         this.amount = (this.max - this.min) + 1;
         this.current = parseInt(this.input.val(), 10) - this.min;
+        
+        //default behaviour is to show lines for empty labels
+        var showEmptyLabels = this.input.attr('showEmptyLabels');
+        if(showEmptyLabels == 'false') this.showEmptyLabels = false;
+        else this.showEmptyLabels = true;
 
         // html
         this.btn = $('<div class="btn">');
@@ -125,7 +130,12 @@
         // html
         container = $('<div class="legend" aria-hidden="true">');
         container.append($.map(labels, function(item) {
-            return $('<div class="label">').text(item == undefined ? '' : item);
+        	if(item == undefined) {
+        		if(range.showEmptyLabels) return $('<div class="label label-empty">').text('');
+        		else return $('<div class="label">').text('');
+            } else {
+            	return $('<div class="label">').text(item);
+            }
         }));
 
         container.children().width(size);
