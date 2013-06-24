@@ -252,5 +252,9 @@
             createRange(this, labels);
         });
     };
+    
+    $.fn.setValue = function(value) {
+    	getRange(this).change(value);
+    };
 
 })(Zepto);
