@@ -13,6 +13,8 @@ http://stormtek.github.io/zepto-range/
 <script src="zepto-range.js"></script>
 ```
 
+**Note:** If performance (loading time) is a big issue then feel free to place the ```<script>``` tags for the javascript at the end of the body, rather than in the header. Just make sure that they are above the javascript that sets up the sliders.
+
 ----------------------------------------------------------
 ### Input fields that the slider is built around
 
