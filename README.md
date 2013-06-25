@@ -32,14 +32,15 @@ http://stormtek.github.io/zepto-range/
  - The minimum value this slider has
 - max="some_integer_greater_than_min"
  - The maximum value this slider has
-- value="some_integer_between_min_and_max"
- - The initial value that is set for the slider
- - **Note:** This is not an index point but one of the values that lies between max and min
 
 **Note:** The number of integers between min and max determine the number of options that the slider has.
 
 #### Optional Parameters
 
+- value="some_integer_between_min_and_max"
+ - The initial value that is set for the slider
+ - This will default to min if it is not set
+ - **Note:** This is not an index point but one of the values that lies between max and min
 - width="some_integer"
  - The width that you want the slider to be
 - class="inside" or class="normal"
