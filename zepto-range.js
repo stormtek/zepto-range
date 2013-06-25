@@ -69,7 +69,9 @@
         this.min = parseInt(this.input.attr('min'), 10);
         this.max = parseInt(this.input.attr('max'), 10);
         this.amount = (this.max - this.min) + 1;
-        this.current = parseInt(this.input.val(), 10) - this.min;
+        var initValue = parseInt(this.input.val(), 10);
+        if(isNaN(initValue)) this.current = this.min;
+        else this.current = initValue - this.min;
         
         //default behaviour is to show lines for empty labels
         var showEmptyLabels = this.input.attr('showEmptyLabels');
