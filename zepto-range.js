@@ -174,6 +174,11 @@
             	if(to == this.amount - 1) pos -= btnWidth;
             	else pos -= btnWidth / 2;
             }
+            // make sure we stay inside the bounds of the slider
+            if(pos < 0) pos = 0;
+            var max = ((this.amount - 1) * this.gap) - btnWidth;
+            if(pos > max) pos = max;
+            
             $.translateX(this.btn[0], pos);
             this.fill.width(pos);
             this.input.trigger('move', [to, this]);
@@ -181,7 +186,6 @@
         change: function(to) {
             to = Math.round(to);
             this.move(to);
-
             this.current = to;
             this.input.val(this.current + this.min);
             this.input.trigger('change', [to, this]);
