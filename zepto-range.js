@@ -167,7 +167,7 @@
         moving: function (status) {
             return this.container.toggleClass('moving', status);
         },
-        move: function(to) {
+        move: function(to, waitForTransitionEnd) {
             var pos = to * this.gap;
             var btnWidth = this.btn.width();
             if(to > 0) {
@@ -178,14 +178,40 @@
             if(pos < 0) pos = 0;
             var max = ((this.amount - 1) * this.gap) - btnWidth;
             if(pos > max) pos = max;
-            
+            if(waitForTransitionEnd) {
+            	var me = this;
+            	var eventTriggered = false;
+            	this.btn[0].addEventListener('transitionend', function(event) {
+            		if(!eventTriggered) {
+            			me.finishMove(to, pos);
+            			eventTriggered = true;
+            		}
+            	}, false);
+            	this.btn[0].addEventListener('webkitTransitionEnd', function(event) {
+            		if(!eventTriggered) {
+            			me.finishMove(to, pos);
+            			eventTriggered = true;
+            		}
+            	}, false);
+            	this.btn[0].addEventListener('oTransitionEnd', function(event) {
+            		if(!eventTriggered) {
+            			me.finishMove(to, pos);
+            			eventTriggered = true;
+            		}
+            	}, false);
+            } else {
+            	this.finishMove(to, pos);
+            }
             $.translateX(this.btn[0], pos);
-            this.fill.width(pos);
+        },
+        finishMove: function(to, pos) {
+        	this.fill.width(pos);
             this.input.trigger('move', [to, this]);
         },
-        change: function(to) {
+        change: function(to, waitForTransitionEnd) {
+        	if(waitForTransitionEnd == undefined) waitForTransitionEnd = true;
             to = Math.round(to);
-            this.move(to);
+            this.move(to, waitForTransitionEnd);
             this.current = to;
             this.input.val(this.current + this.min);
             this.input.trigger('change', [to, this]);
@@ -207,14 +233,14 @@
                 pos = range.pos() - initPos;
                 pos += event.pageX || (event.touches[0] && event.touches[0].pageX) || 0;
                 pos = Math.max(0, Math.min(pos, range.size));
-                range.move(pos / range.gap);
+                range.move(pos / range.gap, false);
             }
 
             function stop(event) {
                 doc.off(defaults.moveGesture, animate);
                 doc.off(defaults.stopGesture, stop);
                 range.moving(false);
-                range.change(pos / range.gap);
+                range.change(pos / range.gap, false);
             }
 
             if (range) {
@@ -260,7 +286,7 @@
     };
     
     $.fn.setValue = function(value) {
-    	getRange(this).change(value);
+    	getRange(this).change(value, true);
     };
 
 })(Zepto);
