@@ -210,6 +210,8 @@
         },
         change: function(to, waitForTransitionEnd) {
         	if(waitForTransitionEnd == undefined) waitForTransitionEnd = true;
+            if(waitForTransitionEnd) this.fill.removeClass('fill-animate');
+            else this.fill.addClass('fill-animate');
             to = Math.round(to);
             this.move(to, waitForTransitionEnd);
             this.current = to;
