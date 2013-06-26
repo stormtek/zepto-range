@@ -85,7 +85,7 @@
         this.btn.size = this.btn.width();
         
         var setWidthValue = parseInt(this.input.attr('width'), 10);
-        if(setWidthValue <= 0) setWidthValue = this.input.width();
+        if(isNaN(setWidthValue) || setWidthValue <= 0) setWidthValue = this.input.width();
         var width =  setWidthValue - this.btn.size;
         this.container = this.input.wrap('<div style="width: ' + width + 'px">').parent();
         this.container.addClass(defaults.name + ' ' + this.input[0].className);
