@@ -175,8 +175,8 @@
 		var numToScaleDown = scaleLoop - numToScaleUp;
 		// gap is used to make sure that scaleUp and scaleDown are evenly distributed
 		// through the values on the slider, rather than all grouped together
-		var gap = Math.floor(scaleLoop / numToScaleDown);
-		if(numToScaleUp < numToScaleDown) gap = Math.floor(scaleLoop / numToScaleUp);
+		var gap = Math.ceil(scaleLoop / numToScaleDown);
+		if(numToScaleUp < numToScaleDown) gap = Math.ceil(scaleLoop / numToScaleUp);
 		// make sure we do as little work as possible
 		var loopLength = scaleLoop;
 		if(numValues < scaleLoop) loopLength = numValues;
