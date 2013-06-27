@@ -13,7 +13,7 @@ http://stormtek.github.io/zepto-range/
 <script src="zepto-range.js"></script>
 ```
 
-**Tip:** For quicker load times use ```zepto.min.js``` rather than ```zepto.js``` as it is the minified version of the javascript for the main zepto library. Both files are included in this repository for your convenience. **However**, it appears that zepto.min.js is suppressing some of the touch events on mobile - in particular, clicking on the slider directly rather than moving the handle along the slider. This is affecting some things on iOS as well as some of the browsers on Android.
+**Tip:** For quicker load times use ```zepto.min.js``` rather than ```zepto.js``` as it is the minified version of the javascript for the main zepto library. Both files are included in this repository for your convenience. If you are building ```zepto.js``` and ```zepto.min.js``` from the source make sure to include the touch module if you are planning on supporting mobile / tablets.
 
 **Note:** If performance (loading time) is a big issue then feel free to place the ```<script>``` tags for the javascript at the end of the body, rather than in the header. Just make sure that they are above the javascript that sets up the sliders.
 
