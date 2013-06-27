@@ -13,6 +13,8 @@ http://stormtek.github.io/zepto-range/
 <script src="zepto-range.js"></script>
 ```
 
+**Tip:** For quicker load times use ```zepto.min.js``` rather than ```zepto.js``` as it is the minified version of the javascript for the main zepto library. Both files are included in this repository for your convenience.
+
 **Note:** If performance (loading time) is a big issue then feel free to place the ```<script>``` tags for the javascript at the end of the body, rather than in the header. Just make sure that they are above the javascript that sets up the sliders.
 
 ----------------------------------------------------------
