@@ -51,6 +51,10 @@ http://stormtek.github.io/zepto-range/
 - showEmptyLabels="true" or showEmptyLabels="false"
  - By setting this to false you can choose to show nothing for those empty labels, hiding them from the user
  - If nothing is specified then this defaults to showEmptyLabels="true"
+- fillColor="desired_colour"
+ - The color that you want the fill bar to be
+ - If nothing is specified then this defaults to the predefined color
+ - This takes a css color property (either a hex value or an acceptable color name)
 
 **Note:** If a width is not specified then the width of an ancestor object will be grabbed. If no ancestor has it's width specified then this will end up being the width of the page. To guarantee that width and layout work correctly it is recommended to specify a width for the input field. One thing to note is that if the width you specify for the slider is greater than the width of a wrapping container then the slider is likely to have issues displaying correctly - the options will probably wrap in strange ways.
 
@@ -91,6 +95,22 @@ $('input[type="range"]').setValue(-1);
 - The parameter to $() is a DOM selector for the input field
 - Make sure that the value passed in is an integer that is between min and max
  - min <= x <= max
+
+----------------------------------------------------------
+### Javascript calls to modify fill colour
+
+``` javascript
+$('#wrapper_id input[type="range"]').setFillColor('#332299');
+$('input[type="range"]').setFillColor('blue');
+```
+- The parameter to $() is a DOM selector for the input field
+- This needs to be passed a valid css color
+
+```javascript
+$('#wrapper_id input[type="range"]').resetFillColor();
+```
+
+- This will reset the fill colour to the default value specified in the css
 
 ----------------------------------------------------------
 ### Events

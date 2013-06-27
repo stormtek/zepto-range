@@ -73,14 +73,19 @@
         if(isNaN(initValue)) this.current = this.min;
         else this.current = initValue - this.min;
         
-        //default behaviour is to show lines for empty labels
+        // default behaviour is to show lines for empty labels
         var showEmptyLabels = this.input.attr('showEmptyLabels');
         if(showEmptyLabels == 'false') this.showEmptyLabels = false;
         else this.showEmptyLabels = true;
 
+		// find a user defined color for the fill
+		var fillColor = this.input.attr('fillColor');
+		if(fillColor != undefined) console.log(fillColor);
+
         // html
         this.btn = $('<div class="btn">');
-        this.fill = $('<div class="fill">');
+        if(fillColor != undefined) this.fill = $('<div class="fill" style="background: ' + fillColor + '">');
+        else this.fill = $('<div class="fill">');
         this.bar = $('<div class="bar">').append(this.btn, this.fill);
         this.btn.size = this.btn.width();
         
@@ -312,5 +317,13 @@
     $.fn.setValue = function(value) {
     	getRange(this).change(value);
     };
+    
+    $.fn.setFillColor = function(color) {
+    	getRange(this).fill[0].style['background'] = color;
+    }
+    
+    $.fn.resetFillColor = function() {
+    	getRange(this).fill[0].style['background'] = '';
+    }
 
 })(Zepto);

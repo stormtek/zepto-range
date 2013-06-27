@@ -36,13 +36,15 @@
         </div>
             
         <div id="samples-04">
-            <h2>Events</h2>
-            <input type="range" class="inside" min="0" max="2" value="1">
+            <h2>User Defined Fill Color</h2>
+            <input type="range" class="inside" min="0" max="2" value="1" fillColor="#339922">
         </div>
         
         <!-- Free standing input field -->
         <h2>Free standing</h2>
         <button onclick="changeFreestandingValue()">Set value to 2</button>
+        <button onclick="changeFreestandingColor()">Set colour to blue</button>
+        <button onclick="resetFreestandingColor()">Reset colour</button>
         <input id="freestanding" class="inside" type="range" min="0" max="3" value="0" width="300">
 
     </div>
@@ -85,6 +87,14 @@
         //To show that we can set the value through a method call
         function changeFreestandingValue() {
         	$('#freestanding').setValue(2);
+        }
+        
+        function changeFreestandingColor() {
+        	$('#freestanding').setFillColor('blue');
+        }
+        
+        function resetFreestandingColor() {
+        	$('#freestanding').resetFillColor();
         }
     </script>
 </body>
