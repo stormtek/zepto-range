@@ -216,7 +216,7 @@
         moving: function (status) {
             return this.container.toggleClass('moving', status);
         },
-        move: function(to, waitForTransitionEnd) {
+        move: function(to) {
             var pos = to * this.gap;
             var btnWidth = this.btn.width();
             if(to > 0) {
@@ -229,49 +229,13 @@
             if(pos > max) pos = max;
             //shift the handle to the appropriate position
             $.translateX(this.btn[0], pos);
-            // If the user clicked on the slider itself (or used setValue() on
-            // the slider), rather than dragging the handle, then we want to wait
-            // for the css transition to end. This is because sometime the transition
-            // is taking a long time to fire, resulting in the fill being adjusted
-            // long (~ a second?) before the handle moves. To prevent this we need
-            // to wait for the css transition to end. Unfortunately this sometimes
-            // causes the fill to lag a bit behind the movement of the slider, but
-            // this is not as blatant as the alternative.
-            if(waitForTransitionEnd) this.finishMoveAfterTransition(to, pos);
-            else this.finishMove(to, pos);
-        },
-        finishMove: function(to, pos) {
-        	this.fill.width(pos);
+            // adjust the fill width
+            this.fill.width(pos);
             this.input.trigger('move', [to, this]);
         },
-        finishMoveAfterTransition: function(to, pos) {
-        	var me = this;
-            var eventTriggered = false;
-            this.btn[0].addEventListener('transitionend', function(event) {
-            	if(!eventTriggered) {
-            		me.finishMove(to, pos);
-            		eventTriggered = true;
-            	}
-            }, false);
-            this.btn[0].addEventListener('webkitTransitionEnd', function(event) {
-            	if(!eventTriggered) {
-            		me.finishMove(to, pos);
-            		eventTriggered = true;
-            	}
-            }, false);
-            this.btn[0].addEventListener('oTransitionEnd', function(event) {
-            	if(!eventTriggered) {
-            		me.finishMove(to, pos);
-            		eventTriggered = true;
-            	}
-            }, false);
-        },
-        change: function(to, waitForTransitionEnd) {
-        	if(waitForTransitionEnd == undefined) waitForTransitionEnd = true;
-            if(waitForTransitionEnd) this.fill.removeClass('fill-animate');
-            else this.fill.addClass('fill-animate');
+        change: function(to) {
             to = Math.round(to);
-            this.move(to, waitForTransitionEnd);
+            this.move(to);
             this.current = to;
             this.input.val(this.current + this.min);
             this.input.trigger('change', [to, this]);
@@ -293,14 +257,14 @@
                 pos = range.pos() - initPos;
                 pos += event.pageX || (event.touches[0] && event.touches[0].pageX) || 0;
                 pos = Math.max(0, Math.min(pos, range.size));
-                range.move(pos / range.gap, false);
+                range.move(pos / range.gap);
             }
 
             function stop(event) {
                 doc.off(defaults.moveGesture, animate);
                 doc.off(defaults.stopGesture, stop);
                 range.moving(false);
-                range.change(pos / range.gap, false);
+                range.change(pos / range.gap);
             }
 
             if (range) {
@@ -346,7 +310,7 @@
     };
     
     $.fn.setValue = function(value) {
-    	getRange(this).change(value, true);
+    	getRange(this).change(value);
     };
 
 })(Zepto);

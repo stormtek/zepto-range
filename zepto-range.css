@@ -173,7 +173,7 @@ input[type="range"] {
 
 /* -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-. */
 
-.range .fill-animate,
+.range .fill,
 .range .btn {
     -webkit-transition: 0.2s all ease-out;
        -moz-transition: 0.2s all ease-out;
