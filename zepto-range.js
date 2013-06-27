@@ -125,7 +125,6 @@
                     tmp[0] = i;
                     [].splice.apply(labels, tmp);
                 }
-                
             }
         }
 
@@ -139,8 +138,9 @@
             return $('<div class="' + classes + '">').text(item == undefined ? '' : item);
         }));
 
-        container.children().width(size);
-        container.find(':first-child, :last-child').width(size / 2 + range.btn.size / 2);
+		// set size of labels
+		setLabelWidths(container, size, range.amount);
+        container.find(':first-child, :last-child').width(Math.ceil(size / 2 + range.btn.size / 2));
         
         // adjust first label styling if necessary
         var firstLabel = labels[0];
@@ -158,6 +158,55 @@
         }
 
         return container;
+    }
+    
+    function setLabelWidths(container, size, numValues) {
+    	// special care is needed to handle sub pixel widths ...
+    	// we do not want to rely on a browser to guess at how it should be done
+    	// this was a particular issue with safari which rounds all values down
+    	var numDp = 2;
+		var value = getDecimalPart(size, numDp);
+		var baseDenominator = Math.pow(10, numDp);
+		var gcf = greatestCommonFactor(value, baseDenominator);
+		var scaleLoop = baseDenominator / gcf;
+		// we use these values to determine how many values should be rounded up and
+		// how many values should be rounded down
+		var numToScaleUp = value / gcf;
+		var numToScaleDown = scaleLoop - numToScaleUp;
+		// gap is used to make sure that scaleUp and scaleDown are evenly distributed
+		// through the values on the slider, rather than all grouped together
+		var gap = Math.floor(scaleLoop / numToScaleDown);
+		if(numToScaleUp < numToScaleDown) gap = Math.floor(scaleLoop / numToScaleUp);
+		// make sure we do as little work as possible
+		var loopLength = scaleLoop;
+		if(numValues < scaleLoop) loopLength = numValues;
+		// actually set the widths on the labels
+		for(var i=0; i<loopLength; i++) {
+			var labelSize = size;
+			if(numToScaleDown < numToScaleUp) {
+				if(i % gap == 0) labelSize = Math.floor(size);
+				else labelSize = Math.ceil(size);
+			} else {
+				if(i % gap == 0) labelSize = Math.ceil(size);
+				else labelSize = Math.floor(size);
+			}
+			// the css selector is forming the inner loop and setting widths
+			// on the appropriate elements
+			container.children('*:nth-child(' + scaleLoop + 'n+' + i + ')').width(labelSize);
+		}
+    }
+    
+    function greatestCommonFactor(a, b) {
+    	if(b==0) return a;
+    	return greatestCommonFactor(b, a%b);
+    }
+    
+    function getDecimalPart(number, numDp) {
+    	var scale = Math.pow(10, numDp + 1);
+    	var scaled = number * scale;
+    	var bigPart = scaled % scale;
+    	var smallPart = scaled % 10;
+    	return (bigPart - smallPart) / 10;
     }
 
     $.extend(Range.prototype, {
@@ -178,35 +227,44 @@
             if(pos < 0) pos = 0;
             var max = ((this.amount - 1) * this.gap) - btnWidth;
             if(pos > max) pos = max;
-            if(waitForTransitionEnd) {
-            	var me = this;
-            	var eventTriggered = false;
-            	this.btn[0].addEventListener('transitionend', function(event) {
-            		if(!eventTriggered) {
-            			me.finishMove(to, pos);
-            			eventTriggered = true;
-            		}
-            	}, false);
-            	this.btn[0].addEventListener('webkitTransitionEnd', function(event) {
-            		if(!eventTriggered) {
-            			me.finishMove(to, pos);
-            			eventTriggered = true;
-            		}
-            	}, false);
-            	this.btn[0].addEventListener('oTransitionEnd', function(event) {
-            		if(!eventTriggered) {
-            			me.finishMove(to, pos);
-            			eventTriggered = true;
-            		}
-            	}, false);
-            } else {
-            	this.finishMove(to, pos);
-            }
+            //shift the handle to the appropriate position
             $.translateX(this.btn[0], pos);
+            // If the user clicked on the slider itself (or used setValue() on
+            // the slider), rather than dragging the handle, then we want to wait
+            // for the css transition to end. This is because sometime the transition
+            // is taking a long time to fire, resulting in the fill being adjusted
+            // long (~ a second?) before the handle moves. To prevent this we need
+            // to wait for the css transition to end. Unfortunately this sometimes
+            // causes the fill to lag a bit behind the movement of the slider, but
+            // this is not as blatant as the alternative.
+            if(waitForTransitionEnd) this.finishMoveAfterTransition(to, pos);
+            else this.finishMove(to, pos);
         },
         finishMove: function(to, pos) {
         	this.fill.width(pos);
             this.input.trigger('move', [to, this]);
+        },
+        finishMoveAfterTransition: function(to, pos) {
+        	var me = this;
+            var eventTriggered = false;
+            this.btn[0].addEventListener('transitionend', function(event) {
+            	if(!eventTriggered) {
+            		me.finishMove(to, pos);
+            		eventTriggered = true;
+            	}
+            }, false);
+            this.btn[0].addEventListener('webkitTransitionEnd', function(event) {
+            	if(!eventTriggered) {
+            		me.finishMove(to, pos);
+            		eventTriggered = true;
+            	}
+            }, false);
+            this.btn[0].addEventListener('oTransitionEnd', function(event) {
+            	if(!eventTriggered) {
+            		me.finishMove(to, pos);
+            		eventTriggered = true;
+            	}
+            }, false);
         },
         change: function(to, waitForTransitionEnd) {
         	if(waitForTransitionEnd == undefined) waitForTransitionEnd = true;
