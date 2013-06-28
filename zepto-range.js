@@ -330,7 +330,9 @@
     };
     
     $.fn.setValue = function(value) {
-    	getRange(this).change(value);
+    	var range = getRange(this);
+    	value -= range.min;
+    	range.change(value);
     };
     
     $.fn.setFillColor = function(color) {
