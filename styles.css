@@ -19,10 +19,6 @@ body {
     margin-left: -250px; /* half the width */
 }
 
-#outsideWrapper {
-	padding: 0px 20px;
-}
-
 h1, h2 {
     font: bold 60px/1 'Ubuntu';
     color: rgba(40, 40, 40, 0.8);

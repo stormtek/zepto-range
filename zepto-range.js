@@ -80,7 +80,6 @@
 
 		// find a user defined color for the fill
 		var fillColor = this.input.attr('fillColor');
-		if(fillColor != undefined) console.log(fillColor);
 
         // html
         this.btn = $('<div class="btn">');
@@ -281,6 +280,22 @@
 
         doc.on(defaults.tapGesture, className + ' .label', function (event) {
             (getRange(this)).change($(this).index());
+        });
+        doc.on(defaults.tapGesture, className + ' .legend', function(event) {
+        	if(event.target==this) {
+        		// if the user clicks near the end of the legend we want to move
+        		// the slider to the min or max value, esp if on a touch device
+        		// - this will be a click on the legend rather than a label
+        		var clickX = event.clientX;
+        		var range = getRange(this);
+        		var legend = $(this);
+        		var legendPos = legend.offset();
+        		var start = legendPos.left;
+        		var end = legendPos.left + legendPos.width;
+        		var adjustment = range.btn.width();
+        		if(clickX < (start + adjustment)) range.change(range.min);
+        		else if(clickX > (end - adjustment)) range.change(range.amount-1);
+        	}
         });
         
         events = function() {};

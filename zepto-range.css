@@ -1,10 +1,11 @@
 /* makes sure width works if not specified on input */
 input[type="range"] {
-    width: 100%;
+    width: 95%;
 }
 
 .range {
     position: relative;
+    padding: 0px 20px;
 }
 /* hide the input value offscreen */
 .range input {
@@ -19,9 +20,12 @@ input[type="range"] {
     font-size: 16px;
     position: absolute;
     top: -25px;
-    left: 0;
     right: 0;
     z-index: 1;
+    /* position tweak to allow us to click just off each end of the slider */
+    left: 20px;
+    margin-left: -10px;
+    padding-left: 10px;
 }
 
 .tablet .range .legend {
