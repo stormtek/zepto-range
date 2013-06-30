@@ -249,7 +249,8 @@
     function events() {
         // singleton pattern
         var doc = $(document),
-            className = '.' + defaults.name;
+            className = '.' + defaults.name,
+            touches = {x: 0, y: 0};
 
         doc.on(defaults.startGesture, className + ' .btn', function (event) {
             var range = getRange(this),
@@ -286,7 +287,8 @@
         		// if the user clicks near the end of the legend we want to move
         		// the slider to the min or max value, esp if on a touch device
         		// - this will be a click on the legend rather than a label
-        		var clickX = event.clientX;
+        		var clickX = touches.x;
+        		if(event.pageX) clickX = event.pageX;
         		var range = getRange(this);
         		var legend = $(this);
         		var legendPos = legend.offset();
@@ -296,6 +298,10 @@
         		if(clickX < (start + adjustment)) range.change(range.min);
         		else if(clickX > (end - adjustment)) range.change(range.amount-1);
         	}
+        });
+        doc.on(defaults.startGesture, className + ' .legend', function (event) {
+        	touches.x = event.originalEvent.touches[0].pageX;
+        	touches.y = event.originalEvent.touches[0].pageY;
         });
         
         events = function() {};
