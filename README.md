@@ -21,9 +21,9 @@ http://stormtek.github.io/zepto-range/
 ### Input fields that the slider is built around
 
 ``` html
-<input type="range" min="0" max="4" value="0">
+<input type="range" min="0" max="4">
 <input type="range" class="inside" min="-5" max="5" value="0">
-<input type="range" min="0" max="2" value="0" width="300"
+<input type="range" min="0" max="2" width="300">
 ```
 
 #### Required Parameters
