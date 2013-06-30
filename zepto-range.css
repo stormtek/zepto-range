@@ -28,15 +28,6 @@ input[type="range"] {
     padding-left: 10px;
 }
 
-.tablet .range .legend {
-    margin-top: 60px;
-    margin-left: 2px;
-}
-.phone .range .legend {
-    margin-top: 60px;
-    margin-left: 3px;
-}
-
 .range .legend .label {
     padding-top: 55px;
     float: left;
