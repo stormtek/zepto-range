@@ -178,26 +178,25 @@
 		// how many values should be rounded down
 		var numToScaleUp = value / gcf;
 		var numToScaleDown = scaleLoop - numToScaleUp;
-		// gap is used to make sure that scaleUp and scaleDown are evenly distributed
+		// gap values are used to make sure that scaleUp and scaleDown are evenly distributed
 		// through the values on the slider, rather than all grouped together
-		var gap = Math.ceil(scaleLoop / numToScaleDown);
-		if(numToScaleUp < numToScaleDown) gap = Math.ceil(scaleLoop / numToScaleUp);
-		// make sure we do as little work as possible
-		var loopLength = scaleLoop;
-		if(numValues < scaleLoop) loopLength = numValues;
+		// this support x:y ratio (rather than 1:x as initial algorithm had)
+		var highGap = 0, lowGap = 1;
+		if(numToScaleDown > 0) {
+			highGap = Math.floor(scaleLoop / numToScaleDown);
+		}
+		if(numToScaleUp > 0) {
+			if(size < 1) lowGap = Math.floor(scaleLoop / numToScaleUp);
+			else lowGap = Math.ceil(scaleLoop / numToScaleUp);
+		}
+		var loopLength = lowGap + highGap;
 		// actually set the widths on the labels
 		for(var i=0; i<loopLength; i++) {
-			var labelSize = size;
-			if(numToScaleDown < numToScaleUp) {
-				if(i % gap == 0) labelSize = Math.floor(size);
-				else labelSize = Math.ceil(size);
-			} else {
-				if(i % gap == 0) labelSize = Math.ceil(size);
-				else labelSize = Math.floor(size);
-			}
+			var labelSize = Math.ceil(size);
+			if(i < lowGap) labelSize = Math.floor(size);
 			// the css selector is forming the inner loop and setting widths
 			// on the appropriate elements
-			container.children('*:nth-child(' + scaleLoop + 'n+' + i + ')').width(labelSize);
+			container.children('*:nth-child(' + loopLength + 'n+' + i + ')').width(labelSize);
 		}
     }
     
@@ -334,7 +333,7 @@
     	if(index >= 0) {
     		store.splice(index, 1);
     		var parent = range.container.parent();
-    		range.container.detach();
+    		range.container.remove();
     		parent.append(range.input[0]);
     	}
     }
