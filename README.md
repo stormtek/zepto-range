@@ -111,6 +111,16 @@ $('#wrapper_id input[type="range"]').resetFillColor();
 ```
 
 - This will reset the fill colour to the default value specified in the css
+- 
+----------------------------------------------------------
+### Javascript call to adjust width of slider
+
+``` javascript
+$('#wrapper_id input[type="range"]').setWidth(300);
+$('input[type="range"]').setWidth(500);
+```
+- The parameter to $() is a DOM selector for the input field
+- This function expects an integer value for the width you want
 
 ----------------------------------------------------------
 ### Events
