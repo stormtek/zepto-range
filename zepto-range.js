@@ -300,8 +300,10 @@
         	}
         });
         doc.on(defaults.startGesture, className + ' .legend', function (event) {
-        	touches.x = event.originalEvent.touches[0].pageX;
-        	touches.y = event.originalEvent.touches[0].pageY;
+        	if(event.originalEvent.touches) {
+	        	touches.x = event.originalEvent.touches[0].pageX;
+	        	touches.y = event.originalEvent.touches[0].pageY;
+	        }
         });
         
         events = function() {};
