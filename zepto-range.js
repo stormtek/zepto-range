@@ -64,6 +64,7 @@
 
     function Range(input, labels) {
         this.input = $(input);
+        this.labels = labels;
 
         // number
         this.min = parseInt(this.input.attr('min'), 10);
@@ -322,13 +323,28 @@
         var element = $(item).closest('.' + defaults.name);
         return store[element.data(defaults.name + '-store')];
     }
+    
+    function removeRange(range) {
+    	var index = -1;
+    	for(var i=0; i<store.length; i++) {
+    		if(store[i] == range) {
+    			index = i;
+    		}
+    	}
+    	if(index >= 0) {
+    		store.splice(index, 1);
+    		var parent = range.container.parent();
+    		range.container.detach();
+    		parent.append(range.input[0]);
+    	}
+    }
 
     // plugin
     $.fn.range = function() {
         var labels;
         events();
         labels = Array.prototype.slice.call(arguments);
-        //detects if the args were an array rather than a list
+        // detects if the args were an array rather than a list
         if(labels.length==1 && labels instanceof Array) {
             labels = labels[0];
         }
@@ -349,6 +365,19 @@
     
     $.fn.resetFillColor = function() {
     	getRange(this).fill[0].style['background'] = '';
+    }
+    
+    $.fn.setWidth = function(newWidth) {
+    	// we need to remove the existing range from the DOM
+    	// update the width value for the input field
+    	// and then create the range again
+    	// this is the easiest way to guarantee that layout for legend
+    	// remains consistent with the new width
+    	var range = getRange(this);
+    	var labels = range.labels;
+    	removeRange(range);
+    	this.attr('width', newWidth);
+    	createRange(this, labels);
     }
 
 })(Zepto);

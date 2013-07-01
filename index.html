@@ -18,7 +18,7 @@
         <br/><br/>
         <!-- two sliders nested inside the same div -->
         <!-- one uses 'inside' mode to contrast the two -->
-        <div id="samples-01">
+        <div id="samples">
         	<h2>Normal mode</h2>
             <input type="range" min="0" max="600" value="0" showemptylabels="false">
             <h2>Inside mode</h2>
@@ -26,16 +26,18 @@
         </div>
             
         <h2>Some Labels</h2>
-        <div id="samples-02">
+        <div id="some-labels">
+    		<button onclick="changeWidth('some-labels', 300)">Set width to 300px</button>
+    		<button onclick="changeWidth('some-labels', 700)">Set width to 700px</button>
             <input type="range" class="inside" min="-4" max="4" value="-2" showEmptyLabels="false">
         </div>
             
         <h2>First and Last Label</h2>
-        <div id="samples-03">
+        <div id="first-and-last">
             <input type="range" min="0" max="14" value="0">
         </div>
             
-        <div id="samples-04">
+        <div id="user-defined-color">
             <h2>User Defined Fill Color</h2>
             <input type="range" class="inside" min="0" max="2" value="1" fillColor="#339922">
         </div>
@@ -62,20 +64,20 @@
 	-->
     <script>
         //No values to be shown
-        $('#samples-01 input[type="range"]').range();
+        $('#samples input[type="range"]').range();
         //Show value value for first, middle, last
-        $('#samples-02 input[type="range"]').range('10', '3', '26');
+        $('#some-labels input[type="range"]').range('10', '3', '26');
         //Show first and last values, sent through as an array
-        $('#samples-03 input[type="range"]').range(['worst', 'best']);
+        $('#first-and-last input[type="range"]').range(['worst', 'best']);
                 
         // SAMPLE 04
-        var sample04 = $('#samples-04 input[type="range"]');
-        sample04.on('change init', function (event, current, range) {
+        var userDefinedColor = $('#user-defined-color input[type="range"]');
+        userDefinedColor.on('change init', function (event, current, range) {
             var labels = range.legend.children();
             labels.removeClass('active');
             labels.eq(current).addClass('active');
         });
-        sample04.range('worst', 'normal', 'best');
+        userDefinedColor.range('worst', 'normal', 'best');
             
         //This entry is not wrapped by a div
         $('#freestanding').range();
@@ -93,6 +95,10 @@
         
         function resetFreestandingColor() {
         	$('#freestanding').resetFillColor();
+        }
+        
+        function changeWidth(id, newWidth) {
+        	$('#' + id + ' input[type="range"]').setWidth(newWidth);
         }
     </script>
 </body>
