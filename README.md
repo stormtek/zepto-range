@@ -60,6 +60,8 @@ http://stormtek.github.io/zepto-range/
 
 **Tip:** If you use a large number of values (e.g. min="0", max="200") and hide the labels (using showEmptyLabels="false") then it is possible to simulate a smooth continuous slider.
 
+**Note:** The combination of width of the slider and number of options that the slider has is used to calculate the width that each label should be. The slider does it's best to make sure that the labels are evenly spaced between min and max, but this gets difficult with high numbers of values - particularly with a smaller width. This is because we are needing to handle the case where the width of an individual label is less than 1 pixel. If the labels are not quite lining up, try fiddling with the width of the slider and the min / max values to alleviate the problem. The layout should work well in most scenarios, but there are unfortunately no guarantees for extreme cases (100's of options with a width of only a few hundred pixels is likely to look a little weird).
+
 ----------------------------------------------------------
 ### Javascript call to construct slider
 
