@@ -45,8 +45,12 @@
         <!-- Free standing input field -->
         <h2>Free standing</h2>
         <button onclick="changeFreestandingValue()">Set value to 2</button>
+        <button onclick="getFreestandingValue()">Set Output to Current Value</button>
         <button onclick="changeFreestandingColor()">Set colour to blue</button>
         <button onclick="resetFreestandingColor()">Reset colour</button>
+        <div>
+        	<p>Output: <span id="freestandingOutput">Unknown</span></p>
+        </div>
         <input id="freestanding" class="inside" type="range" min="-5" max="3" value="0" width="300">
 
     </div>
@@ -63,14 +67,14 @@
 		the html. If not then the addition of the slider divs does not happen.
 	-->
     <script>
-        //No values to be shown
+        // No values to be shown
         $('#samples input[type="range"]').range();
-        //Show value value for first, middle, last
+        // Show value value for first, middle, last
         $('#some-labels input[type="range"]').range('10', '3', '26');
-        //Show first and last values, sent through as an array
+        // Show first and last values, sent through as an array
         $('#first-and-last input[type="range"]').range(['worst', 'best']);
                 
-        // SAMPLE 04
+        // Custom styling on the active label
         var userDefinedColor = $('#user-defined-color input[type="range"]');
         userDefinedColor.on('change init', function (event, current, range) {
             var labels = range.legend.children();
@@ -78,23 +82,35 @@
             labels.eq(current).addClass('active');
         });
         userDefinedColor.range('worst', 'normal', 'best');
-            
-        //This entry is not wrapped by a div
-        $('#freestanding').range();
-        //This entry relies on set width since it is outside wrapper div
+        
+        // This entry is outside the wrapper div, it deduces the width it should have
         $('#outside input[type="range"]').range();
         
-        //To show that we can set the value through a method call
+        // This entry is not wrapped by a div
+        // it also has a lot of interactions defined based on button clicks
+        var freestanding = $('#freestanding');
+        freestanding.range();
+        
+        function setFreestandingOutput(value) {
+        	$('#freestandingOutput')[0].innerHTML = value;
+        }
+        
+        // Methods to interact with sliders
         function changeFreestandingValue() {
-        	$('#freestanding').setValue(2);
+        	freestanding.setValue(2);
+        }
+        
+        function getFreestandingValue() {
+        	var value = freestanding.getValue();
+        	setFreestandingOutput(value);
         }
         
         function changeFreestandingColor() {
-        	$('#freestanding').setFillColor('blue');
+        	freestanding.setFillColor('blue');
         }
         
         function resetFreestandingColor() {
-        	$('#freestanding').resetFillColor();
+        	freestanding.resetFillColor();
         }
         
         function changeWidth(id, newWidth) {

@@ -295,7 +295,7 @@
         		var start = legendPos.left;
         		var end = legendPos.left + legendPos.width;
         		var adjustment = range.btn.width();
-        		if(clickX < (start + adjustment)) range.change(range.min);
+        		if(clickX < (start + adjustment)) range.change(0);
         		else if(clickX > (end - adjustment)) range.change(range.amount-1);
         	}
         });
@@ -356,6 +356,10 @@
     	var range = getRange(this);
     	value -= range.min;
     	range.change(value);
+    };
+    
+    $.fn.getValue = function() {
+    	return getRange(this).input[0].value;
     };
     
     $.fn.setFillColor = function(color) {
