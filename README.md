@@ -146,11 +146,11 @@ $('dom_selector').setWidth(300);
 ----------------------------------------------------------
 ### Events
 
-* `init`
-* `move`
-* `change`
+- `init`
+- `move`
+- `change`
 
-- You can set up a listener for any of these events using the javascript below
+You can set up a listener for any of these events using the javascript below
 
 ``` javascript
 $('dom_selector').on('change', function(event, current, range) {
@@ -158,6 +158,8 @@ $('dom_selector').on('change', function(event, current, range) {
 });
 ```
 
-- event is the name of the event that trigged the handler
-- current is the current value the slider has set
-- range is the slider itself
+- 'event' is the name of the event that trigged the handler
+- 'current' is the current **index** the slider has set, rather than the current **value**
+- 'range' is the slider itself
+- To get the current value the slider has set use range.input[0].value
+ - For some reason range.getValue() does not work inside the event handler
