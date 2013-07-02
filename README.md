@@ -63,18 +63,33 @@ http://stormtek.github.io/zepto-range/
 **Note:** The combination of width of the slider and number of options that the slider has is used to calculate the width that each label should be. The slider does it's best to make sure that the labels are evenly spaced between min and max, but this gets difficult with high numbers of values - particularly with a smaller width. This is because we are needing to handle the case where the width of an individual label is less than 1 pixel. If the labels are not quite lining up, try fiddling with the width of the slider and the min / max values to alleviate the problem. The layout should work well in most scenarios, but there are unfortunately no guarantees for extreme cases (100's of options with a width of only a few hundred pixels is likely to look a little weird).
 
 ----------------------------------------------------------
+### Gaining access the the input field
+
+``` javascript
+$('#wrapper_id input[type="range"]')
+$('#input_field_id')
+$('input[type="range"]')
+```
+
+- The parameter to $() is a DOM selector for the input field
+- The first example will return all input fields inside the field with #wrapper_id
+- The second example will return the field with the specified id (it is up to you to make sure that this is actually an input field, not something like a div)
+- The final example will return all input fields on the page (useful if you want to construct all sliders at once with default labels)
+
+**Tip:** The safest option is to wrap each input field in a div which has an id set on it. That way you can use the first example selector and know that you are interacting with a slider.
+
+----------------------------------------------------------
 ### Javascript call to construct slider
 
 This needs to be added inside script tags at the end of the html. This guarantees that all the html is added to the DOM correctly before we start modifying it.
 
 ``` javascript
-$('#wrapper_id input[type="range"]').range();
-$('input[type="range"]').range('worst', 'best');
-$('input[type="range"]').range(['1', '2', '3']);
+$('dom_selector').range();
+$('dom_selector').range('worst', 'best');
+$('dom_selector').range(['1', '2', '3']);
 ```
 
-- The parameter to $() is a DOM selector for the input field
-- The function call range() can take 3 types of parameter (as shown above):
+- The function range() can take 3 types of parameter (as shown above):
  1. No parameters (the min and max values set on the input field will be shown)
  2. A list of strings to be shown as options
  3. An array of strings to be shown as options
@@ -87,41 +102,45 @@ $('input[type="range"]').range(['1', '2', '3']);
  - Things work best for gaps if there are an odd number of options
 
 ----------------------------------------------------------
-### Javascript call to change value
+### Javascript calls to interact with value
 
 ``` javascript
-$('#wrapper_id input[type="range"]').setValue(3);
-$('input[type="range"]').setValue(-1);
+$('dom_selector').setValue(3);
 ```
 
-- The parameter to $() is a DOM selector for the input field
 - Make sure that the value passed in is an integer that is between min and max
  - min <= x <= max
+
+``` javascript
+$('#wrapper_id input[type="range"]').getValue();
+```
+
+- This returns the current value that the slider has set
 
 ----------------------------------------------------------
 ### Javascript calls to modify fill colour
 
 ``` javascript
-$('#wrapper_id input[type="range"]').setFillColor('#332299');
-$('input[type="range"]').setFillColor('blue');
+$('dom_selector').setFillColor('#332299');
+$('dom_selector').setFillColor('blue');
 ```
-- The parameter to $() is a DOM selector for the input field
-- This needs to be passed a valid css color
 
-```javascript
-$('#wrapper_id input[type="range"]').resetFillColor();
+- This needs to be passed a valid css color
+ - It can be either a hex value or a predefined color
+
+``` javascript
+$('dom_selector').resetFillColor();
 ```
 
 - This will reset the fill colour to the default value specified in the css
-- 
+
 ----------------------------------------------------------
 ### Javascript call to adjust width of slider
 
 ``` javascript
-$('#wrapper_id input[type="range"]').setWidth(300);
-$('input[type="range"]').setWidth(500);
+$('dom_selector').setWidth(300);
 ```
-- The parameter to $() is a DOM selector for the input field
+
 - This function expects an integer value for the width you want
 
 ----------------------------------------------------------
@@ -130,3 +149,15 @@ $('input[type="range"]').setWidth(500);
 * `init`
 * `move`
 * `change`
+
+- You can set up a listener for any of these events using the javascript below
+
+``` javascript
+$('dom_selector').on('change', function(event, current, range) {
+//handle event here
+});
+```
+
+- event is the name of the event that trigged the handler
+- current is the current value the slider has set
+- range is the slider itself
