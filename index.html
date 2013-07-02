@@ -49,6 +49,7 @@
         <button onclick="changeFreestandingColor()">Set colour to blue</button>
         <button onclick="resetFreestandingColor()">Reset colour</button>
         <div>
+        	<p>Current Value: <span id="freestandingValue">Unknown</span></p>
         	<p>Output: <span id="freestandingOutput">Unknown</span></p>
         </div>
         <input id="freestanding" class="inside" type="range" min="-5" max="3" value="0" width="300">
@@ -89,6 +90,9 @@
         // This entry is not wrapped by a div
         // it also has a lot of interactions defined based on button clicks
         var freestanding = $('#freestanding');
+        freestanding.on('init change', function(event, current, range) {
+        	$('#freestandingValue')[0].innerHTML = range.input[0].value;
+        });
         freestanding.range();
         
         function setFreestandingOutput(value) {
