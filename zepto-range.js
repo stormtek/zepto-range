@@ -331,7 +331,9 @@
     		}
     	}
     	if(index >= 0) {
-    		store.splice(index, 1);
+    		// if we remove this from the store we break the indices of other sliders
+    		// so we set the entry to null instead
+    		store[i] = null;
     		var parent = range.container.parent();
     		range.container.remove();
     		parent.append(range.input[0]);
@@ -377,10 +379,12 @@
     	// this is the easiest way to guarantee that layout for legend
     	// remains consistent with the new width
     	var range = getRange(this);
-    	var labels = range.labels;
-    	removeRange(range);
-    	this.attr('width', newWidth);
-    	createRange(this, labels);
+    	if(range) {
+			var labels = range.labels;
+   			removeRange(range);
+   			this.attr('width', newWidth);
+   			createRange(this, labels);
+    	}
     }
 
 })(Zepto);
