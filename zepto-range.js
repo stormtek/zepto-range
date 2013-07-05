@@ -166,34 +166,29 @@
     }
     
     function setLabelWidths(container, size, numValues) {
-    	// special care is needed to handle sub pixel widths ...
-    	// we do not want to rely on a browser to guess at how it should be done
-    	// this was a particular issue with safari which rounds all values down
-    	var numDp = 2;
+		// special care is needed to handle sub pixel widths ...
+		// we do not want to rely on a browser to guess at how it should be done
+		// this was a particular issue with safari which rounds all values down
+		var numDp = 2;
 		var value = getDecimalPart(size, numDp);
 		var baseDenominator = Math.pow(10, numDp);
 		var gcf = greatestCommonFactor(value, baseDenominator);
-		var scaleLoop = baseDenominator / gcf;
 		// we use these values to determine how many values should be rounded up and
 		// how many values should be rounded down
+		var loopLength = baseDenominator / gcf;
 		var numToScaleUp = value / gcf;
-		var numToScaleDown = scaleLoop - numToScaleUp;
-		// gap values are used to make sure that scaleUp and scaleDown are evenly distributed
-		// through the values on the slider, rather than all grouped together
-		// this support x:y ratio (rather than 1:x as initial algorithm had)
-		var highGap = 0, lowGap = 1;
-		if(numToScaleDown > 0) {
-			highGap = Math.floor(scaleLoop / numToScaleDown);
-		}
-		if(numToScaleUp > 0) {
-			if(size < 1) lowGap = Math.floor(scaleLoop / numToScaleUp);
-			else lowGap = Math.ceil(scaleLoop / numToScaleUp);
-		}
-		var loopLength = lowGap + highGap;
+		var numToScaleDown = loopLength - numToScaleUp;
+		// we use these values to interleave up and down values evenly
+		var percentUp = numToScaleUp / loopLength;
+		var percentDown = numToScaleDown / loopLength;
+		var count = 0;
 		// actually set the widths on the labels
 		for(var i=0; i<loopLength; i++) {
-			var labelSize = Math.ceil(size);
-			if(i < lowGap) labelSize = Math.floor(size);
+			var labelSize = Math.floor(size);
+			if(count > percentDown) {
+				labelSize = Math.ceil(size);
+				count -= percentDown;
+			} else count += percentUp;
 			// the css selector is forming the inner loop and setting widths
 			// on the appropriate elements
 			container.children('*:nth-child(' + loopLength + 'n+' + i + ')').width(labelSize);
