@@ -328,7 +328,7 @@
     	if(index >= 0) {
     		// if we remove this from the store we break the indices of other sliders
     		// so we set the entry to null instead
-    		store[i] = null;
+    		store[index] = null;
     		var parent = range.container.parent();
     		range.container.remove();
     		parent.append(range.input[0]);
