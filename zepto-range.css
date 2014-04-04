@@ -9,10 +9,7 @@ input[type="range"] {
 }
 /* hide the input value offscreen */
 .range input {
-    position: absolute;
-    text-align: left;
-    direction: ltr;
-    left: -9999px;
+    display: none;
 }
 
 /* legend */
