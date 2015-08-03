@@ -79,12 +79,19 @@
         if(showEmptyLabels == 'false') this.showEmptyLabels = false;
         else this.showEmptyLabels = true;
 
-		// find a user defined color for the fill
-		var fillColor = this.input.attr('fillColor');
+	// find a user defined color for the fill
+	var fillColor = this.input.attr('fillColor');
+	var showFill = this.input.attr('showFill');
+	
+	//check for rtl layout
+	var rtl = this.input.attr('rtl');
+	if(rtl == "True" || rtl == "true") this.rtl = true;
+	else this.rtl = false;
 
         // html
         this.btn = $('<div class="btn">');
-        if(fillColor != undefined) this.fill = $('<div class="fill" style="background: ' + fillColor + '">');
+        if(showFill == "False" || showFill == "false") this.fill = $('<div class="fill" style="background: none;">');
+        else if(fillColor != undefined) this.fill = $('<div class="fill" style="background: ' + fillColor + '">');
         else this.fill = $('<div class="fill">');
         this.bar = $('<div class="bar">').append(this.btn, this.fill);
         this.btn.size = this.btn.width();
@@ -132,6 +139,16 @@
                 }
             }
         }
+        
+        // reverse labels if using an rtl layout
+        if(range.rtl) {
+        	var numberOfLabels = labels.length;
+        	var reverse = new Array(numberOfLabels);
+        	for(var i=0; i<numberOfLabels; i++) {
+        		reverse[numberOfLabels - i - 1] = labels[i];
+        	}
+        	labels = reverse;
+        }
 
         // html
         container = $('<div class="legend" aria-hidden="true">');
@@ -143,8 +160,8 @@
             return $('<div class="' + classes + '">').text(item == undefined ? '' : item);
         }));
 
-		// set size of labels
-		setLabelWidths(container, size, range.amount);
+	// set size of labels
+	setLabelWidths(container, size, range.amount);
         container.find(':first-child, :last-child').width(Math.ceil(size / 2 + range.btn.size / 2));
         
         // adjust first label styling if necessary
@@ -229,7 +246,12 @@
             //shift the handle to the appropriate position
             $.translateX(this.btn[0], pos);
             // adjust the fill width
-            this.fill.width(pos);
+            if(this.rtl) {
+            	this.fill.width = (max - pos + btnWidth / 4);
+            	$.translateX(this.fill[0], pos + btnWidth / 4);
+            } else {
+            	this.fill.width(pos);
+            }
             this.input.trigger('move', [to, this]);
         },
         change: function(to) {
