@@ -55,6 +55,11 @@ http://stormtek.github.io/zepto-range/
  - The color that you want the fill bar to be
  - If nothing is specified then this defaults to the predefined color
  - This takes a css color property (either a hex value or an acceptable color name)
+- showFill="true" or showFill="false"
+ - By setting this to false you can choose to hide the coloured fill element of the slider
+ - If nothing is specified then this defaults to showing the coloured fill element
+- rtl="true" or rtl="false"
+ - By setting this to true you can choose to use an RTL layout for the slider. This reverses the order of the labels that have been specified (or auto-generated) and fills from right to left rather than left to right. This is useful when using the slider with an RTL language such as Arabic or Hebrew.
 
 **Note:** If a width is not specified then the width of an ancestor object will be grabbed. If no ancestor has it's width specified then this will end up being the width of the page. To guarantee that width and layout work correctly it is recommended to specify a width for the input field. One thing to note is that if the width you specify for the slider is greater than the width of a wrapping container then the slider is likely to have issues displaying correctly - the options will probably wrap in strange ways.
 
@@ -63,7 +68,7 @@ http://stormtek.github.io/zepto-range/
 **Note:** The combination of width of the slider and number of options that the slider has is used to calculate the width that each label should be. The slider does it's best to make sure that the labels are evenly spaced between min and max, but this gets difficult with high numbers of values - particularly with a smaller width. This is because we are needing to handle the case where the width of an individual label is less than 1 pixel. If the labels are not quite lining up, try fiddling with the width of the slider and the min / max values to alleviate the problem. The layout should work well in most scenarios, but there are unfortunately no guarantees for extreme cases (100's of options with a width of only a few hundred pixels is likely to look a little weird).
 
 ----------------------------------------------------------
-### Gaining access the the input field
+### Gaining access to the input field
 
 ``` javascript
 $('#wrapper_id input[type="range"]')
